@@ -1,31 +1,31 @@
-// const express = require('express');
-// const cors = require('cors');
-// const dotenv = require('dotenv');
-// const connectDB = require('./db/db');
-// // const authroutes = require('./routes/auth.route')
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const connectDB = require('./db/db');
+// const authroutes = require('./routes/auth.route')
 
 
-// dotenv.config();
-
-
-
-
-// const app = express();
+dotenv.config();
 
 
 
 
-// app.use(cors());
-// app.use(express.json());
+const app = express();
 
 
 
-// connectDB();
+
+app.use(cors());
+app.use(express.json());
 
 
-// const port = process.env.PORT || 3200;
+
+connectDB();
 
 
-// app.listen(port, () => {
-//   console.log(`http://localhost:${port}`);
-// })
+const port = process.env.PORT || 3200;
+
+
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`);
+})
