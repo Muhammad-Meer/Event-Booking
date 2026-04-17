@@ -7,7 +7,9 @@ const registeruser = async (req , res) => {
     const {name , email , password} = req.body
 
     try {
-      const user = await usermodel.f
+      const user = await usermodel.findOne({
+
+      })
     } catch (error) {
       
     }
@@ -21,5 +23,7 @@ const logout = async (req , res) => {
 
 }
 
-module.exports = {registeruser, loginuser}
+      
+module.exports = {registeruser, loginuser, }
 
+ 
