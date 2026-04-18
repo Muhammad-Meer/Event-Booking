@@ -4,6 +4,8 @@ const cookieparser = require('cookie-parser');
 
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+
 
 
 app.use(express.json());
@@ -15,4 +17,6 @@ app.get("/", (req, res) => {
 });
 
 
+
 module.exports = app;
+

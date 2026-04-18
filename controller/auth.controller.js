@@ -28,7 +28,7 @@ const registeruser = async (req, res) => {
       });
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 2);
 
     const newuser = await usermodel.create({
       fullname,
@@ -62,12 +62,16 @@ const registeruser = async (req, res) => {
   }
 };
 
-
-
-
 const loginuser = async (req, res) => {
+
+
+  if (!req.body) {
+    return res.status(400).json({
+      message: "No body received"
+    });
+  }
   const { email, password } = req.body;
-  console.log(email, password) 
+
 
   try {
     if (!email || !password) {
@@ -113,7 +117,16 @@ const loginuser = async (req, res) => {
   }
 };
 
+function logoutuser(req, res) {
+  res.clearCookie("token");
+  res.status(200).json({
+    message: "logout successfuly"
+  })
+
+}
+
 module.exports = {
   registeruser,
-  loginuser
+  loginuser,
+  logoutuser
 }
