@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const userscheema = new mongoose.Schema({
-  name: {
+  fullname: {
     type: String,
     required: true,
   },
@@ -17,17 +17,9 @@ const userscheema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    dafult: 'user',
-  },
-  isverifyed: {
-    type: Boolean,
-    dafult: false,
   }
-})
+},
+  { timestamps: true })
 
 const usermodel = mongoose.model('user', userscheema);
 
