@@ -3,7 +3,7 @@ const  registeruser = require('../controller/auth.controller');
 
 const router = express.Router();
 
-router.post('/api/auth/register', registeruser.registeruser);
-router.post('/api/auth/login', registeruser.loginuser);
+router.post('/register', registeruser.registeruser);
+router.post('/login', registeruser.loginuser);
 
 module.exports = router;

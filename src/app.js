@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieparser());
-app.use(authroute)
+app.use('/api/auth', authroute);
 
 
 
