@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const foodpartnerSchema = new mongoose.Schema({
+const foodSchema = new mongoose.Schema({
    
   name: {
     type: String,
@@ -22,7 +22,7 @@ const foodpartnerSchema = new mongoose.Schema({
 
 
 
-const foodmodel = mongoose.model("food", foodpartnerSchema);
+const foodmodel = mongoose.model("food", foodSchema);
 
 
 module.exports = foodmodel;
