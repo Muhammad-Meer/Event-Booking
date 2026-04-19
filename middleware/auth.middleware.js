@@ -6,7 +6,7 @@ const authmiddleware = (req, res, enxt) => {
 
   const token = req.cookies.token;
 
-  if(!token) {
+  if (!token) {
     return res.status(401).json({
       message: "unauthorized please login first"
     })
@@ -15,9 +15,11 @@ const authmiddleware = (req, res, enxt) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-     const foodpartner = foodpartnermodel.findById(decoded.id);
+    const foodpartner = foodpartnermodel.findById(decoded.id);
 
-     req.foodpartner = foodpartner
+    req.foodpartner = foodpartner
+
+    next();
 
   } catch (error) {
     res.status(401).json({
@@ -25,3 +27,8 @@ const authmiddleware = (req, res, enxt) => {
     })
   }
 }
+
+
+module.exports = {
+  authmiddleware
+};
