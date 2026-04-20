@@ -3,8 +3,6 @@ const foodpartnermodel = require('../models/foodpartner.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-
-
 const registeruser = async (req, res) => {
   const { fullname, email, password } = req.body;
 
@@ -29,7 +27,7 @@ const registeruser = async (req, res) => {
       });
     }
 
-    const passwordHash = await bcrypt.hash(password, 2);
+    const passwordHash = await bcrypt.hash(password, 10);
 
     const newuser = await usermodel.create({
       fullname,
@@ -64,15 +62,13 @@ const registeruser = async (req, res) => {
 };
 
 const loginuser = async (req, res) => {
-
-
   if (!req.body) {
     return res.status(400).json({
       message: "No body received"
     });
   }
-  const { email, password } = req.body;
 
+  const { email, password } = req.body;
 
   try {
     if (!email || !password) {
@@ -122,26 +118,19 @@ function logoutuser(req, res) {
   res.clearCookie("token");
   res.status(200).json({
     message: "logout successfuly"
-  })
-
+  });
 }
-
-
-
 
 const foodpartner = async (req, res) => {
   const { fullname, email, password } = req.body;
 
   try {
-
-    // check empty fields
     if (!fullname || !email || !password) {
       return res.status(400).json({
         message: "All fields are required"
       });
     }
 
-    // check user exist
     const isuseralreadyExist = await foodpartnermodel.findOne({ email });
 
     if (isuseralreadyExist) {
@@ -150,37 +139,31 @@ const foodpartner = async (req, res) => {
       });
     }
 
-    // password validation
     if (password.length < 6) {
       return res.status(400).json({
         message: "password must be at least 6 characters"
       });
     }
 
-    // hash password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // create user
     const newuser = await foodpartnermodel.create({
       fullname,
       email,
       password: passwordHash
     });
 
-    // generate token
     const token = jwt.sign(
       { id: newuser._id },
       process.env.SECRET_KEY,
       { expiresIn: "3d" }
     );
 
-    // set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false // production me true karna
+      secure: false
     });
 
-    // response
     res.status(201).json({
       message: "user registered successfully",
       user: {
@@ -203,15 +186,12 @@ const loginFoodPartner = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-
-    // check empty fields
     if (!email || !password) {
       return res.status(400).json({
         message: "All fields are required"
       });
     }
 
-    // check user exist
     const user = await foodpartnermodel.findOne({ email });
 
     if (!user) {
@@ -220,7 +200,6 @@ const loginFoodPartner = async (req, res) => {
       });
     }
 
-    // compare password
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -229,20 +208,17 @@ const loginFoodPartner = async (req, res) => {
       });
     }
 
-    // generate token
     const token = jwt.sign(
       { id: user._id },
       process.env.SECRET_KEY,
       { expiresIn: "3d" }
     );
 
-    // set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false // production me true
+      secure: false
     });
 
-    // response
     res.status(200).json({
       message: "Login successful",
       user: {
@@ -261,20 +237,10 @@ const loginFoodPartner = async (req, res) => {
   }
 };
 
-function logoutuser(req, res) {
-  res.clearCookie("token");
-  res.status(200).json({
-    message: "logout successfuly"
-  })
-
-}
-
-
 module.exports = {
   registeruser,
   loginuser,
   logoutuser,
   foodpartner,
-  loginFoodPartner,
-  logoutuser
-}
+  loginFoodPartner
+};

@@ -1,8 +1,7 @@
 const foodpartnermodel = require('../models/foodpartner.model');
 const jwt = require('jsonwebtoken');
 
-
-const authmiddleware = (req, res, enxt) => {
+const authmiddleware = async (req, res, next) => {
 
   const token = req.cookies.token;
 
@@ -15,9 +14,9 @@ const authmiddleware = (req, res, enxt) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-    const foodpartner = foodpartnermodel.findById(decoded.id);
+    const foodpartner = await foodpartnermodel.findById(decoded.id);
 
-    req.foodpartner = foodpartner
+    req.foodpartner = foodpartner;
 
     next();
 
@@ -27,7 +26,6 @@ const authmiddleware = (req, res, enxt) => {
     })
   }
 }
-
 
 module.exports = {
   authmiddleware
