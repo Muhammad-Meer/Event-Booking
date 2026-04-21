@@ -15,9 +15,9 @@ async function createfood(req, res) {
       });
     }
 
-    const { name, price } = req.body;
+    const { name  } = req.body;
 
-    if (!name || !price) {
+    if (!name) {
       return res.status(400).json({
         message: "All fields are required"
       });
